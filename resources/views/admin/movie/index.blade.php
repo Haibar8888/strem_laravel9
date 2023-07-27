@@ -125,27 +125,37 @@
               <table id="movieTable" class="table table-bordered table-hover movie">
                 <thead>
                   <tr>
-                    <th>Id</th>
                     <th>Title</th>
                     <th>Thumbnail</th>
                     <th>Categories</th>
                     <th>Casts</th>
+
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                     @foreach ($movies as $data )
                     <tr>
-                        <td>{{ $data->id }}</td>
                         <td>{{ $data->title }}</td>
                         <td>
                             <img src="{{asset('storage/thumbnail/'. $data->small_thumbnail)}}" width="50px" >
                         </td>
-                        <td>
-                            <img src="{{asset('storage/thumbnail/'. $data->large_thumbnail)}}" width="50px">
-                        </td>
                         <td>{{ $data->categories }}</td>
-                        <td>{{ $data->cast }}</td>
+                        <td>{{ $data->casts }}</td>
+                        <td>
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                Action
+                                </button>
+                                <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('admin.movie.edit',[$data->id]) }}">Edit</a>
+                                <form action="{{ route('admin.movie.destroy',$data->id) }}" method="POST">
+                                      @method('delete')
+                                      @csrf
+                                      <button class="dropdown-item" type="submit">Delete</button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

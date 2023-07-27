@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 // model
 use App\Models\Movie;
@@ -93,9 +94,10 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Movie $movie)
     {
         //
+        return view('admin.movie.edit',compact('movie'));
     }
 
     /**
@@ -105,9 +107,48 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Movie $movie)
     {
         //
+         $data = $request->all();
+
+         $request->validate([
+            'title' => 'required|string',
+            'small_thumbnail' => 'image|mimes:png,jpg,jpeg',
+            'large_thumbnail' => 'image|mimes:png,jpg,jpeg',
+            'trailer' => 'required|url',
+            'movie' => 'required|url',
+            'casts' => 'required|string',
+            'categories' => 'required|string',
+            'release_date' => 'required|string',
+            'about' => 'required|string',
+            'short_about' => 'required|string',
+            'duration' => 'required|string',
+            'featured' => 'required',
+       ]);
+
+       if ($request->small_thumbnail) {
+            $smallThumbnail = $request->small_thumbnail;
+            $originalSmallThumbnail = Str::random(10).$smallThumbnail->getClientOriginalName();
+            $smallThumbnail->storeAs('public/thumbnail',$originalSmallThumbnail);
+            $data['small_thumbnail'] = $originalSmallThumbnail;
+
+            // delete old data
+            Storage::delete('public/thumbnail/'.$movie->small_thumbnail);
+       }
+
+       if ($request->large_thumbnail) {
+            $largeThumbnail = $request->large_thumbnail;
+            $originalLargeThumbnail = Str::random(10).$largeThumbnail->getClientOriginalName();
+            //    upload gambar
+            $largeThumbnail->storeAs('public/thumbnail',$originalLargeThumbnail);
+            // save data
+            $data['large_thumbnail'] = $originalLargeThumbnail;
+            // delete old data
+            Storage::delete('public/thumbnail/'.$movie->large_thumbnail);
+       }
+            $movie->update($data);
+            return redirect()->route('admin.movie.index')->with('success', 'Data Movie berhasil diedit');
     }
 
     /**
@@ -116,8 +157,10 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Movie $movie)
     {
         //
+        $movie->delete();
+        return redirect()->route('admin.movie.index')->with('success', 'Data Movie berhasil dihapus');
     }
 }
