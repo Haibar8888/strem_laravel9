@@ -19,15 +19,15 @@ use App\Http\Controllers\Admin\MovieController;
 // Route::get('/', function () {
 //     return view('');
 // });
-Route::group(['prefix' => 'admin'], function () {
-    // dashboard 
-    Route::view('/','admin.dashboard');
+// Route::group(['prefix' => 'admin'], function () {
+//     // dashboard
+//     Route::view('/','admin.dashboard');
+//     Route::resource('movie',MovieController::class);
+// });
 
-    // 
-    Route::group(['prefix' => 'movie'], function () {
-        // movies
-        Route::resource('/',MovieController::class);
-    });
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::view('/','admin.dashboard');
+    Route::resource('movie',MovieController::class);
 
 });
 
