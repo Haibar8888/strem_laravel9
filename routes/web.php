@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 // controller
 use App\Http\Controllers\Admin\MovieController;
+use App\Http\Controllers\Admin\TransactionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,11 @@ use App\Http\Controllers\Admin\MovieController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::view('/','admin.dashboard');
+    // movie controller
     Route::resource('movie',MovieController::class);
+
+    // transaction controller
+    Route::resource('transaction',TransactionsController::class);
 
 });
 
