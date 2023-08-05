@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 // controller
 use App\Http\Controllers\Admin\MovieController;
 use App\Http\Controllers\Admin\TransactionsController;
+use App\Http\Controllers\Admin\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,11 @@ use App\Http\Controllers\Admin\TransactionsController;
 //     Route::resource('movie',MovieController::class);
 // });
 
+// Login
+Route::get('admin/login',[LoginController::class,'index'])->name('admin.login');
+Route::post('admin/login/action',[LoginController::class,'authenticate'])->name('admin.login.auth');
+
+// admin
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::view('/','admin.dashboard');
     // movie controller
