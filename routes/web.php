@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\MovieController;
 use App\Http\Controllers\Admin\TransactionsController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Member\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ use App\Http\Controllers\Admin\LoginController;
 
 // Login
 Route::get('admin/login',[LoginController::class,'index'])->name('admin.login');
-Route::post('admin/login/action',[LoginController::class,'authenticate'])->name('admin.login.auth');
+Route::post('admin/login',[LoginController::class,'authenticate'])->name('admin.login.auth');
 
 // admin
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -39,6 +40,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // transaction controller
     Route::resource('transaction',TransactionsController::class);
-
 });
+
+Route::view('/','index');
+
+// register
+Route::get('/register',[RegisterController::class,'index'])->name('member.register');
+Route::post('/register',[RegisterController::class,'store'])->name('member.register.store');
 

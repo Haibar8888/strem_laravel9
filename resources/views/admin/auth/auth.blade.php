@@ -35,7 +35,7 @@
         </div>
     @endif
 
-      <form action="{{route('admin.login.auth')}}" method="post">
+      <form method="POST" action="{{route('admin.login.auth')}}" >
         @csrf
         <div class="input-group mb-3">
           <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="{{old('email')}}">
@@ -68,10 +68,10 @@
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="{{asset("plugins/jquery/jquery.min.js")}}"></script>
+<script src="{{asset("adminlte/plugins/jquery/jquery.min.js")}}"></script>
 <!-- Bootstrap 4 -->
-<script src="{{asset("plugins/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
+<script src="{{asset("adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset("dist/js/adminlte.min.js")}}"></script>
+<script src="{{asset("adminlte/dist/js/adminlte.min.js")}}"></script>
 </body>
 </html>
