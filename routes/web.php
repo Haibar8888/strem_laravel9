@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\MovieController;
 use App\Http\Controllers\Admin\TransactionsController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Member\RegisterController;
+use App\Http\Controllers\Member\LoginController AS MemberController;
+use App\Http\Controllers\Member\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +32,7 @@ use App\Http\Controllers\Member\RegisterController;
 
 // Login
 Route::get('admin/login',[LoginController::class,'index'])->name('admin.login');
-Route::post('admin/login',[LoginController::class,'authenticate'])->name('admin.login.auth');
+Route::post('admin/login',[LoginController::class,'auth'])->name('admin.login.auth');
 
 // admin
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -44,7 +46,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::view('/','index');
 
+// login
+Route::get('/login',[MemberController::class,'index'])->name('member.login');
+Route::post('/login',[MemberController::class,'auth'])->name('member.login.auth');
+
 // register
 Route::get('/register',[RegisterController::class,'index'])->name('member.register');
 Route::post('/register',[RegisterController::class,'store'])->name('member.register.store');
+
+// member 
+Route::group(['prefix' => 'member'], function(){
+    Route::get('/',[DashboardController::class,'index'])->name('member.dashboard');
+});
 

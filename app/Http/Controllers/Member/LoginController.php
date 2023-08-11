@@ -1,23 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class LoginController extends Controller
 {
     //
-    public function index()
-    {  
-        // $user = User::all();
-        // dd($user);
-        return view('admin.auth.auth');
+    public function index() {
+        return view('member.auth');
     }
 
-      public function auth(Request $request) {
+    public function auth(Request $request) {
 
       $request->validate([
             'email' => ['required', 'email'],
@@ -25,18 +21,22 @@ class LoginController extends Controller
         ]);
       
       $credentials = $request->only('email', 'password');
-      $credentials['role'] = 'admin';
+      $credentials['role'] = 'member';
 
       if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
         $request->session()->regenerate();
-        return redirect('admin/movie');
+        return 'success';
       }
       
         return back()->withErrors([
-            'credentials' => "Your credentials are wrong"
+           'credentials' => "Email atau Password Anda salah"
         ])->withInput();
 
 
+
+    }
+
+    public function logout() {
 
     }
 }
