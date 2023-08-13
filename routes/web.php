@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Member\RegisterController;
 use App\Http\Controllers\Member\LoginController AS MemberController;
 use App\Http\Controllers\Member\DashboardController;
+use App\Http\Controllers\Member\MovieController as MoviesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,9 @@ Route::post('/register',[RegisterController::class,'store'])->name('member.regis
 
 // member 
 Route::group(['prefix' => 'member'], function(){
+
     Route::get('/',[DashboardController::class,'index'])->name('member.dashboard');
+
+    Route::get('movie/{id}',[MoviesController::class,'show'])->name('member.movie.detail');
 });
 
