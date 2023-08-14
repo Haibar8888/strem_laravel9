@@ -63,7 +63,7 @@
                         <div class="flex flex-col w-full font-normal lg:w-auto lg:gap-12 lg:items-center lg:flex-row">
                             <a href="#!" class="nav-link-item">Genre</a>
                             <a href="#!" class="nav-link-item">Featured</a>
-                            <a href="pricing.html" class="nav-link-item">Pricing</a>
+                            <a href="{{route('member.pricing')}}" class="nav-link-item">Pricing</a>
                         </div>
                         <a href="/" class="hidden lg:block -ml-36">
                             <img src="{{asset("stream/assets/images/stream.svg")}}" alt="stream" />

@@ -10,6 +10,7 @@ use App\Http\Controllers\Member\RegisterController;
 use App\Http\Controllers\Member\LoginController AS MemberController;
 use App\Http\Controllers\Member\DashboardController;
 use App\Http\Controllers\Member\MovieController as MoviesController;
+use App\Http\Controllers\Member\PricingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // transaction controller
     Route::resource('transaction',TransactionsController::class);
+
+    // admin logout
+    Route::get('/logout',[LoginController::class,'logout'])->name('admin.logout');
 });
 
 Route::view('/','index');
@@ -55,11 +59,18 @@ Route::post('/login',[MemberController::class,'auth'])->name('member.login.auth'
 Route::get('/register',[RegisterController::class,'index'])->name('member.register');
 Route::post('/register',[RegisterController::class,'store'])->name('member.register.store');
 
+// pricing
+Route::get('/pricing',[PricingController::class,'index'])->name('member.pricing');
 // member 
-Route::group(['prefix' => 'member'], function(){
+Route::group(['prefix' => 'member','middleware' => ['auth']], function(){
 
+    // member dashboard
     Route::get('/',[DashboardController::class,'index'])->name('member.dashboard');
 
+    // member logout
+    Route::get('/logout',[MemberController::class,'logout'])->name('member.logout');
+
+    // member detail movie
     Route::get('movie/{id}',[MoviesController::class,'show'])->name('member.movie.detail');
 });
 
